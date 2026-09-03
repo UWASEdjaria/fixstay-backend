@@ -3,3 +3,5 @@ iste/
 build/
 .env/
 .DS_Store
+dist/
+.env
