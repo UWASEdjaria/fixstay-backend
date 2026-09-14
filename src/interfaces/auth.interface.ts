@@ -5,6 +5,15 @@ export interface LoginRequestDTO {
   password: string;
 }
 
+export interface RegisterRequestDTO {
+  email: string;
+  fullName: string;
+  phoneNumber?: string;
+  password: string;
+  confirmPassword: string;
+  role?: UserRole;
+}
+
 export interface UserSummaryDTO {
   id: string;
   email: string;
