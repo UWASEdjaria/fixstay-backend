@@ -1,0 +1,913 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"_36_Enums.UrgencyLevel": {
+				"type": "string",
+				"enum": [
+					"LOW",
+					"MEDIUM",
+					"HIGH",
+					"CRITICAL"
+				]
+			},
+			"UrgencyLevel": {
+				"$ref": "#/components/schemas/_36_Enums.UrgencyLevel"
+			},
+			"_36_Enums.TicketStatus": {
+				"type": "string",
+				"enum": [
+					"PENDING",
+					"IN_PROGRESS",
+					"ON_HOLD",
+					"RESOLVED",
+					"CLOSED",
+					"CANCELLED"
+				]
+			},
+			"TicketStatus": {
+				"$ref": "#/components/schemas/_36_Enums.TicketStatus"
+			},
+			"AssignedStaffDTO": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"fullName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"fullName",
+					"email"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TicketAttachmentDTO": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"fileUrl": {
+						"type": "string"
+					},
+					"fileType": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"fileUrl",
+					"fileType"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TicketResponseDTO": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"ticketNumber": {
+						"type": "string"
+					},
+					"roomId": {
+						"type": "string"
+					},
+					"roomNumber": {
+						"type": "string"
+					},
+					"floor": {
+						"type": "number",
+						"format": "double"
+					},
+					"building": {
+						"type": "string"
+					},
+					"categoryId": {
+						"type": "string"
+					},
+					"categoryName": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"urgency": {
+						"$ref": "#/components/schemas/UrgencyLevel"
+					},
+					"status": {
+						"$ref": "#/components/schemas/TicketStatus"
+					},
+					"reportedByGuestName": {
+						"type": "string",
+						"nullable": true
+					},
+					"guestTrackingToken": {
+						"type": "string",
+						"nullable": true
+					},
+					"assignedStaff": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/AssignedStaffDTO"
+							}
+						],
+						"nullable": true
+					},
+					"attachments": {
+						"items": {
+							"$ref": "#/components/schemas/TicketAttachmentDTO"
+						},
+						"type": "array"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"ticketNumber",
+					"roomId",
+					"roomNumber",
+					"floor",
+					"building",
+					"categoryId",
+					"categoryName",
+					"title",
+					"description",
+					"urgency",
+					"status",
+					"reportedByGuestName",
+					"guestTrackingToken",
+					"assignedStaff",
+					"attachments",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Record_string.string-Array_": {
+				"properties": {},
+				"additionalProperties": {
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"type": "object",
+				"description": "Construct a type with a set of properties K of type T"
+			},
+			"ErrorResponseDTO": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"details": {
+						"$ref": "#/components/schemas/Record_string.string-Array_"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateTicketDTO": {
+				"properties": {
+					"roomId": {
+						"type": "string"
+					},
+					"categoryId": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"urgency": {
+						"$ref": "#/components/schemas/UrgencyLevel"
+					},
+					"reportedByGuestName": {
+						"type": "string"
+					},
+					"guestContact": {
+						"type": "string"
+					},
+					"attachmentUrls": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"roomId",
+					"categoryId",
+					"title",
+					"description",
+					"urgency"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginationMetaDTO": {
+				"properties": {
+					"total": {
+						"type": "number",
+						"format": "double"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"limit": {
+						"type": "number",
+						"format": "double"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"total",
+					"page",
+					"limit",
+					"totalPages"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedTicketsResponseDTO": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/TicketResponseDTO"
+						},
+						"type": "array"
+					},
+					"meta": {
+						"$ref": "#/components/schemas/PaginationMetaDTO"
+					}
+				},
+				"required": [
+					"data",
+					"meta"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateTicketStatusDTO": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/TicketStatus"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"resolutionSummary": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AssignTicketDTO": {
+				"properties": {
+					"assignedToUserId": {
+						"type": "string"
+					},
+					"comment": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"assignedToUserId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PublicAuditLogEntryDTO": {
+				"properties": {
+					"newStatus": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/TicketStatus"
+							}
+						],
+						"nullable": true
+					},
+					"comment": {
+						"type": "string",
+						"nullable": true
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"newStatus",
+					"comment",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GuestTicketTrackingResponseDTO": {
+				"properties": {
+					"ticketNumber": {
+						"type": "string"
+					},
+					"roomNumber": {
+						"type": "string"
+					},
+					"categoryName": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"urgency": {
+						"$ref": "#/components/schemas/UrgencyLevel"
+					},
+					"status": {
+						"$ref": "#/components/schemas/TicketStatus"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"resolvedAt": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"resolutionSummary": {
+						"type": "string",
+						"nullable": true
+					},
+					"timeline": {
+						"items": {
+							"$ref": "#/components/schemas/PublicAuditLogEntryDTO"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"ticketNumber",
+					"roomNumber",
+					"categoryName",
+					"title",
+					"description",
+					"urgency",
+					"status",
+					"createdAt",
+					"resolvedAt",
+					"resolutionSummary",
+					"timeline"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"_36_Enums.UserRole": {
+				"type": "string",
+				"enum": [
+					"ADMIN",
+					"STAFF",
+					"GUEST"
+				]
+			},
+			"UserRole": {
+				"$ref": "#/components/schemas/_36_Enums.UserRole"
+			},
+			"UserSummaryDTO": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"fullName": {
+						"type": "string"
+					},
+					"role": {
+						"$ref": "#/components/schemas/UserRole"
+					}
+				},
+				"required": [
+					"id",
+					"email",
+					"fullName",
+					"role"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginResponseDTO": {
+				"properties": {
+					"accessToken": {
+						"type": "string"
+					},
+					"user": {
+						"$ref": "#/components/schemas/UserSummaryDTO"
+					}
+				},
+				"required": [
+					"accessToken",
+					"user"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RegisterRequestDTO": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"fullName": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"confirmPassword": {
+						"type": "string"
+					},
+					"role": {
+						"$ref": "#/components/schemas/UserRole"
+					}
+				},
+				"required": [
+					"email",
+					"fullName",
+					"password",
+					"confirmPassword"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginRequestDTO": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"jwt": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	},
+	"info": {
+		"title": "fixstay-backend",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/api/v1/tickets": {
+			"post": {
+				"operationId": "CreateTicket",
+				"responses": {
+					"201": {
+						"description": "Ticket created successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TicketResponseDTO"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseDTO"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tickets"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateTicketDTO"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "ListTickets",
+				"responses": {
+					"200": {
+						"description": "Tickets retrieved successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedTicketsResponseDTO"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseDTO"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tickets"
+				],
+				"security": [
+					{
+						"jwt": [
+							"STAFF",
+							"ADMIN"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "status",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/TicketStatus"
+						}
+					},
+					{
+						"in": "query",
+						"name": "urgency",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/UrgencyLevel"
+						}
+					},
+					{
+						"in": "query",
+						"name": "roomId",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "assignedToId",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/tickets/{id}/status": {
+			"patch": {
+				"operationId": "UpdateStatus",
+				"responses": {
+					"200": {
+						"description": "Ticket status updated",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TicketResponseDTO"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseDTO"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Ticket Not Found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseDTO"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tickets"
+				],
+				"security": [
+					{
+						"jwt": [
+							"STAFF",
+							"ADMIN"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateTicketStatusDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/tickets/{id}/assign": {
+			"patch": {
+				"operationId": "AssignTicket",
+				"responses": {
+					"200": {
+						"description": "Ticket assigned",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TicketResponseDTO"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseDTO"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Ticket Not Found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseDTO"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tickets"
+				],
+				"security": [
+					{
+						"jwt": [
+							"STAFF",
+							"ADMIN"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AssignTicketDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/tickets/track/{token}": {
+			"get": {
+				"operationId": "TrackTicket",
+				"responses": {
+					"200": {
+						"description": "Ticket tracking details retrieved",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GuestTicketTrackingResponseDTO"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Ticket not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseDTO"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tickets"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "token",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/auth/register": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"201": {
+						"description": "Account successfully created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LoginResponseDTO"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseDTO"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegisterRequestDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/auth/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Login successful",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LoginResponseDTO"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseDTO"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginRequestDTO"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
