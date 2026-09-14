@@ -1,0 +1,26 @@
+{
+  "entryFile": "src/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/controllers/**/*.controller.ts"],
+  "routes": {
+    "routesDir": "src/generated",
+    "middleware": "express",
+    "authenticationModule": "src/auth/authentication.ts"
+  },
+  "spec": {
+    "outputDirectory": "src/generated",
+    "specVersion": 3,
+    "info": {
+      "title": "StayFix Hotel Maintenance API",
+      "version": "1.0.0",
+      "description": "Enterprise API for guest issue reporting, staff maintenance dispatch, and resolution tracking."
+    },
+    "securityDefinitions": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
